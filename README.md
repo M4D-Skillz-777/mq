@@ -41,7 +41,7 @@ A Kafka-like distributed message queue built in Go for educational purposes. Imp
 ### Installation
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/mq.git
+git clone https://github.com/adwaiy/mq.git
 cd mq
 go mod tidy
 ```
@@ -223,14 +223,16 @@ go run ./cmd/test_cluster
 go run ./cmd/benchmark -brokers=localhost:9001
 ```
 
-## Roadmap
+## Future Scope
 
-- [ ] Memory-mapped indexes (O(log n) lookup)
-- [ ] Log compaction
-- [ ] Message compression (gzip/snappy)
-- [ ] Raft snapshots
-- [ ] Dynamic membership
-- [ ] Kafka protocol compatibility
+This project was built for educational purposes. Potential enhancements:
+
+- **Memory-mapped indexes**: O(log n) offset lookups instead of O(n) scan
+- **Log compaction**: Key-based retention for compacted topics
+- **Message compression**: gzip/snappy for bandwidth reduction
+- **Raft snapshots**: Log truncation for long-running clusters
+- **Dynamic membership**: Add/remove brokers without restart
+- **Kafka protocol compatibility**: Wire protocol adapter for Kafka clients
 
 ## Learn More
 
