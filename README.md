@@ -147,10 +147,90 @@ Terminal 3:
 go run ./cmd/broker -id=3 -port=9003 -data=./data/node3 -peers="1:localhost:9001,2:localhost:9002"
 ```
 
-### Test with CLI
+### CLI Tool
+
+DMQ includes an interactive CLI tool (similar to redis-cli or kafka-cli):
 
 ```bash
+# Build CLI
+go build -o bin/cli ./cmd/cli
+
+# Or run directly
 go run ./cmd/cli
+```
+
+#### CLI Commands
+
+**Topic Management:**
+```bash
+# List all topics
+./bin/cli topic list
+
+# Create a topic
+./bin/cli topic create my-topic --partitions 3
+
+# Describe a topic
+./bin/cli topic describe my-topic
+
+# Delete a topic
+./bin/cli topic delete my-topic
+```
+
+**Producing Messages:**
+```bash
+# Produce a single message
+./bin/cli produce my-topic --key "key1" --value "hello world"
+
+# Produce with specific partition
+./bin/cli produce my-topic -p 0 -v "message"
+
+# Interactive streaming mode
+./bin/cli produce-stream my-topic
+```
+
+**Consuming Messages:**
+```bash
+# Consume messages (one-time)
+./bin/cli consume my-topic --partition 0
+
+# Subscribe to topic (streaming)
+./bin/cli subscribe my-topic --group my-group --partition 0
+```
+
+**Consumer Groups:**
+```bash
+# Join a group
+./bin/cli group join my-group consumer-1 my-topic
+
+# Leave a group
+./bin/cli group leave my-group consumer-1
+
+# Commit offset
+./bin/cli group commit my-group my-topic 0 100
+```
+
+**Cluster Info:**
+```bash
+./bin/cli cluster info
+```
+
+**Interactive Shell:**
+```bash
+# Start interactive shell
+./bin/cli shell
+
+# In shell:
+dmq> topic list
+dmq> produce my-topic -k key1 -v "hello"
+dmq> consume my-topic
+dmq> help
+dmq> exit
+```
+
+**Connect to Different Broker:**
+```bash
+./bin/cli -a localhost:9001 topic list
+./bin/cli --address localhost:9002 produce my-topic -v "test"
 ```
 
 ### Run Benchmarks
